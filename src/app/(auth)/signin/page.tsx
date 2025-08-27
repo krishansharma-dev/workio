@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Separator } from '@/components/ui/separator'
-import { Mail, Eye, EyeOff, Chrome } from 'lucide-react'
+
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/client'
@@ -79,7 +79,6 @@ export default function SignInPage() {
             variant="outline"
             className="w-full h-12 text-gray-700 border-gray-300 hover:bg-gray-50 transition-colors"
           >
-            <Chrome className="mr-2 h-5 w-5" />
             Continue with Google
           </Button>
 
@@ -95,18 +94,15 @@ export default function SignInPage() {
           <form onSubmit={handleEmailSignIn} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="you@example.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  className="pl-10 h-12"
-                />
-              </div>
+              <Input
+                id="email"
+                type="email"
+                placeholder="you@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="h-12"
+              />
             </div>
             
             <div className="space-y-2">
@@ -119,20 +115,16 @@ export default function SignInPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="pr-10 h-12"
+                  className="h-12"
                 />
                 <Button
                   type="button"
                   variant="ghost"
                   size="sm"
-                  className="absolute right-0 top-0 h-12 px-3 hover:bg-transparent"
+                  className="absolute right-0 top-0 h-12 px-3 hover:bg-transparent text-gray-500 text-xs"
                   onClick={() => setShowPassword(!showPassword)}
                 >
-                  {showPassword ? (
-                    <EyeOff className="h-4 w-4 text-gray-400" />
-                  ) : (
-                    <Eye className="h-4 w-4 text-gray-400" />
-                  )}
+                  {showPassword ? 'Hide' : 'Show'}
                 </Button>
               </div>
             </div>
@@ -145,7 +137,7 @@ export default function SignInPage() {
         <CardFooter className="flex justify-center">
           <p className="text-sm text-gray-600">
             Don&apos;t have an account?{' '}
-            <Link href="/auth/signup" className="font-semibold text-primary hover:underline">
+            <Link href="/signup" className="font-semibold text-primary hover:underline">
               Sign up
             </Link>
           </p>
