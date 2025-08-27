@@ -63,31 +63,29 @@ export default function WorkspacePage() {
     setLoading(false);
   };
 
+  const generateSlug = (name: string) => {
+    return name
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+  };
+
   const createWorkspace = async () => {
     if (!newWorkspaceName.trim()) return;
 
-    // Insert into workspaces
-    const { data, error } = await supabase
+    const slug = generateSlug(newWorkspaceName);
+
+    const { error } = await supabase
       .from("workspaces")
-      .insert({ name: newWorkspaceName })
-      .select()
-      .single();
+      .insert({
+        name: newWorkspaceName,
+        slug,
+      });
 
     if (error) {
       console.error("Error creating workspace:", error);
       return;
-    }
-
-    // Add current user as owner in workspace_members
-    const { error: memberError } = await supabase
-      .from("workspace_members")
-      .insert({
-        workspace_id: data.id,
-        role: "owner",
-      });
-
-    if (memberError) {
-      console.error("Error adding user to workspace:", memberError);
     }
 
     setNewWorkspaceName("");
@@ -132,6 +130,9 @@ export default function WorkspacePage() {
                 </p>
                 <p className="mt-2 text-xs text-gray-500">
                   Role: <span className="font-medium">{ws.role}</span>
+                </p>
+                <p className="mt-1 text-xs text-gray-400">
+                  Slug: <span className="font-mono">{ws.slug}</span>
                 </p>
               </CardContent>
             </Card>
